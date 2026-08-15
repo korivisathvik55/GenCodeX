@@ -73,7 +73,7 @@ The project was built to make understanding unfamiliar GitHub codebases easier b
                                        |
                                        v
                               React Frontend
-
+```
 4. Technology Stack
 Programming Languages
 Python
