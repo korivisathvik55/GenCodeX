@@ -328,14 +328,23 @@ AI Explanation
 
 The application also displays the retrieved source-code chunks used as context for the generated answer.
 
-10. Screenshots
-GenCodeX Frontend
+## 10. Screenshots
 
-AI-Generated Answer
+### GenCodeX Frontend
 
-Retrieved Source Code
+![GenCodeX Frontend](docs/screenshots/frontend.png)
 
-FastAPI Documentation
+### AI-Generated Answer
+
+![AI Answer](docs/screenshots/ai-answer.png)
+
+### Retrieved Source Code
+
+![Retrieved Sources](docs/screenshots/sources.png)
+
+### FastAPI Documentation
+
+![FastAPI API Documentation](docs/screenshots/api-docs.png)
 
 11. Testing
 
