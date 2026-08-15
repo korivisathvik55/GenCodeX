@@ -74,30 +74,48 @@ The project was built to make understanding unfamiliar GitHub codebases easier b
                                        v
                               React Frontend
 ```
-4. Technology Stack
-Programming Languages
-Python
-JavaScript
-Frontend
-React
-Vite
-CSS
-React Markdown
-Backend
-FastAPI
-Pydantic
-PyGithub
-AI and RAG
-Sentence Transformers
-FAISS
-Ollama
-Qwen2.5-Coder 3B
-Development Tools
-Git
-GitHub
-npm
-Python Virtual Environment
-5. Project Structure
+
+---
+
+## 4. Technology Stack
+
+### Programming Languages
+
+- Python
+- JavaScript
+
+### Frontend
+
+- React
+- Vite
+- CSS
+- React Markdown
+
+### Backend
+
+- FastAPI
+- Pydantic
+- PyGithub
+
+### AI and RAG
+
+- Sentence Transformers
+- FAISS
+- Ollama
+- Qwen2.5-Coder 3B
+
+### Development Tools
+
+- Git
+- GitHub
+- npm
+- Python Virtual Environment
+
+---
+
+## 5. Project Structure
+
+```text
 GenCodeX/
 │
 ├── backend/
@@ -136,146 +154,189 @@ GenCodeX/
 │
 ├── .gitignore
 └── README.md
-Backend File Responsibilities
-File	Responsibility
-main.py	FastAPI application and API endpoints
-github_service.py	GitHub repository and source-code retrieval
-chunking_service.py	Splits source code into smaller chunks
-embedding_service.py	Generates semantic embeddings
-vector_store.py	Handles FAISS vector storage and search
-code_search_service.py	Performs semantic code retrieval
-llm_service.py	Connects GenCodeX to the local Qwen model through Ollama
-6. How It Works
+```
+
+### Backend File Responsibilities
+
+| File | Responsibility |
+|---|---|
+| `main.py` | FastAPI application and API endpoints |
+| `github_service.py` | GitHub repository and source-code retrieval |
+| `chunking_service.py` | Splits source code into smaller chunks |
+| `embedding_service.py` | Generates semantic embeddings |
+| `vector_store.py` | Handles FAISS vector storage and search |
+| `code_search_service.py` | Performs semantic code retrieval |
+| `llm_service.py` | Connects GenCodeX to the local Qwen model through Ollama |
+
+---
+
+## 6. How It Works
 
 GenCodeX follows a Retrieval-Augmented Generation pipeline.
 
-Step 1: User Input
+### Step 1: User Input
 
 The user provides:
 
-GitHub repository URL
-Source-code file path
-Question about the code
-Step 2: GitHub Code Retrieval
+- GitHub repository URL
+- Source-code file path
+- Question about the code
+
+### Step 2: GitHub Code Retrieval
 
 The FastAPI backend connects to GitHub and retrieves the requested source file.
 
-Step 3: Code Chunking
+### Step 3: Code Chunking
 
 The source code is divided into smaller chunks so that relevant sections can be retrieved efficiently.
 
-Step 4: Embedding Generation
+### Step 4: Embedding Generation
 
 The code chunks are converted into numerical vectors using Sentence Transformers.
 
 These embeddings represent the semantic meaning of the source-code chunks.
 
-Step 5: FAISS Similarity Search
+### Step 5: FAISS Similarity Search
 
 The user's question is converted into an embedding and compared against the code embeddings.
 
 FAISS retrieves the most relevant code chunks based on semantic similarity.
 
-Step 6: Context Construction
+### Step 6: Context Construction
 
 The retrieved code chunks are combined to create the context provided to the language model.
 
-Step 7: AI Generation
+### Step 7: AI Generation
 
 Qwen2.5-Coder 3B, running locally through Ollama, receives the user's question and the retrieved code context.
 
 The model generates an explanation based on the provided code context.
 
-Step 8: Final Response
+### Step 8: Final Response
 
 The generated explanation is returned to the React frontend along with the retrieved source-code chunks.
 
-7. Installation & Setup
-Prerequisites
+---
+
+## 7. Installation & Setup
+
+### Prerequisites
 
 Install the following:
 
-Python
-Node.js
-Git
-Ollama
-Clone the Repository
+- Python
+- Node.js
+- Git
+- Ollama
+
+### Clone the Repository
+
+```powershell
 git clone https://github.com/korivisathvik55/GenCodeX.git
 cd GenCodeX
-Backend Setup
+```
+
+### Backend Setup
 
 Create a Python virtual environment:
 
+```powershell
 python -m venv .venv
+```
 
 Activate the environment:
 
+```powershell
 .venv\Scripts\activate
+```
 
 Install the required Python packages:
 
+```powershell
 pip install -r requirements.txt
-Ollama Setup
+```
+
+### Ollama Setup
 
 Download the Qwen2.5-Coder model:
 
+```powershell
 ollama pull qwen2.5-coder:3b
+```
 
 Test the model:
 
+```powershell
 ollama run qwen2.5-coder:3b
-Start the Backend
+```
+
+### Start the Backend
 
 From the project root:
 
+```powershell
 uvicorn backend.app.main:app --reload
+```
 
 Backend URL:
 
+```text
 http://127.0.0.1:8000
+```
 
 FastAPI documentation:
 
+```text
 http://127.0.0.1:8000/docs
-Start the Frontend
+```
+
+### Start the Frontend
 
 Open another terminal:
 
+```powershell
 cd frontend
 npm.cmd install
 npm.cmd run dev
+```
 
 Frontend URL:
 
+```text
 http://localhost:5173
+```
 
 Vite may automatically use another available port if port 5173 is already occupied.
 
-8. API Documentation
-GET /
+---
+
+## 8. API Documentation
+
+### GET `/`
 
 Checks whether the GenCodeX backend is running.
 
-POST /repositories
+### POST `/repositories`
 
 Retrieves information about a GitHub repository.
 
-POST /repositories/files
+### POST `/repositories/files`
 
 Retrieves files available in a GitHub repository.
 
-POST /repositories/content
+### POST `/repositories/content`
 
 Retrieves the contents of a specific source file.
 
-POST /repositories/chunks
+### POST `/repositories/chunks`
 
 Retrieves a source file and divides it into code chunks.
 
-POST /repositories/ask
+### POST `/repositories/ask`
 
 Runs the complete RAG pipeline:
 
+```text
 Question
    |
    v
@@ -298,14 +359,33 @@ Qwen2.5-Coder
    |
    v
 AI Answer
-9. Example
-Repository
+```
+
+---
+
+## 9. Example
+
+### Repository
+
+```text
 https://github.com/fastapi/fastapi
-File
+```
+
+### File
+
+```text
 fastapi/applications.py
-Question
+```
+
+### Question
+
+```text
 How is the FastAPI application initialized?
-GenCodeX Processing
+```
+
+### GenCodeX Processing
+
+```text
 GitHub File
      |
      v
@@ -325,9 +405,11 @@ Qwen2.5-Coder
      |
      v
 AI Explanation
-
+```
 
 The application also displays the retrieved source-code chunks used as context for the generated answer.
+
+---
 
 ## 10. Screenshots
 
@@ -347,44 +429,51 @@ The application also displays the retrieved source-code chunks used as context f
 
 ![FastAPI API Documentation](docs/screenshots/api-docs.png)
 
-11. Testing
+---
+
+## 11. Testing
 
 The following components have been tested individually and as an integrated system:
 
-Code chunking
-Embedding generation
-FAISS similarity search
-Semantic code search
-Local LLM generation
-GitHub code retrieval
-End-to-end RAG API
-React frontend
-Frontend-to-backend communication
-Source-code retrieval and display
-End-to-End Test
+- Code chunking
+- Embedding generation
+- FAISS similarity search
+- Semantic code search
+- Local LLM generation
+- GitHub code retrieval
+- End-to-end RAG API
+- React frontend
+- Frontend-to-backend communication
+- Source-code retrieval and display
+
+### End-to-End Test
 
 The complete pipeline was successfully tested using a GitHub repository and a source-code question.
 
 Example:
 
+```text
 Repository:
 https://github.com/fastapi/fastapi
-
 
 File:
 fastapi/applications.py
 
-
 Question:
 How is the FastAPI application initialized?
+```
 
 The system successfully retrieved relevant code, generated an AI explanation, and displayed the source chunks used during retrieval.
 
-12. Project Status
-Core RAG Pipeline: Complete
+---
+
+## 12. Project Status
+
+### Core RAG Pipeline: Complete
 
 The current implementation successfully demonstrates:
 
+```text
 GitHub
    |
    v
@@ -410,23 +499,30 @@ AI-Generated Explanation
    |
    v
 React Interface
-13. Future Enhancements
+```
+
+---
+
+## 13. Future Enhancements
 
 Possible future improvements include:
 
-Repository-wide indexing
-Automatic file selection
-Multi-file code analysis
-Conversation history
-Code navigation
-Improved code-aware chunking
-Private GitHub repository support
-Automated test coverage
-Cloud deployment
-Advanced repository analysis
-14. Author
+- Repository-wide indexing
+- Automatic file selection
+- Multi-file code analysis
+- Conversation history
+- Code navigation
+- Improved code-aware chunking
+- Private GitHub repository support
+- Automated test coverage
+- Cloud deployment
+- Advanced repository analysis
 
-Korivi Sathvik
+---
+
+## 14. Author
+
+**Korivi Sathvik**
 
 GitHub:
 
