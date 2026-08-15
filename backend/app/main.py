@@ -4,7 +4,8 @@ from pydantic import BaseModel
 from .github_service import (
     get_repository,
     get_repository_files,
-    get_file_content
+    get_file_content,
+    get_github_client
 )
 
 app = FastAPI(title="GenCodeX API")
@@ -13,6 +14,9 @@ app = FastAPI(title="GenCodeX API")
 class RepositoryRequest(BaseModel):
     repo_url: str
 
+class RepositoryContentRequest(BaseModel):
+    repo_url: str
+    file_path: str
 
 @app.get("/")
 def home():
@@ -40,28 +44,23 @@ def repository_info(request: RepositoryRequest):
             detail=str(error)
         )
 @app.post("/repositories/content")
-def repository_file_content(request: RepositoryRequest):
+def repository_file_content(request: RepositoryContentRequest):
     try:
         repo_name = request.repo_url.rstrip("/").replace(
             "https://github.com/", ""
         )
 
-        from github import Github
-        from .github_service import get_github_client
-
         github = get_github_client()
         repository = github.get_repo(repo_name)
 
-        file_path = "README.md"
-
         content = get_file_content(
             repository,
-            file_path
+            request.file_path
         )
 
         return {
             "repository": repository.full_name,
-            "file": file_path,
+            "file": request.file_path,
             "content": content
         }
 
