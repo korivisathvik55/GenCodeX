@@ -326,6 +326,7 @@ Qwen2.5-Coder
      v
 AI Explanation
 
+
 The application also displays the retrieved source-code chunks used as context for the generated answer.
 
 ## 10. Screenshots
