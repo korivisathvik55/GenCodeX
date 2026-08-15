@@ -92,3 +92,12 @@ def get_repository_files(repo_url):
         "total_files": len(files),
         "files": files
     }
+def get_file_content(repository, file_path):
+    file = repository.get_contents(file_path)
+
+    if isinstance(file, list):
+        raise ValueError("The provided path is a directory, not a file.")
+
+    content = file.decoded_content.decode("utf-8")
+
+    return content
