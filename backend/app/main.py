@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from .chunking_service import chunk_code
 
 from .github_service import (
     get_repository,
@@ -15,6 +16,10 @@ class RepositoryRequest(BaseModel):
     repo_url: str
 
 class RepositoryContentRequest(BaseModel):
+    repo_url: str
+    file_path: str
+
+class RepositoryChunkRequest(BaseModel):
     repo_url: str
     file_path: str
 
@@ -62,6 +67,41 @@ def repository_file_content(request: RepositoryContentRequest):
             "repository": repository.full_name,
             "file": request.file_path,
             "content": content
+        }
+
+    except Exception as error:
+        raise HTTPException(
+            status_code=400,
+            detail=str(error)
+        )
+@app.post("/repositories/chunks")
+def repository_chunks(request: RepositoryChunkRequest):
+    try:
+        repo_name = request.repo_url.rstrip("/").replace(
+            "https://github.com/", ""
+        )
+
+        github = get_github_client()
+        repository = github.get_repo(repo_name)
+
+        content = get_file_content(
+            repository,
+            request.file_path
+        )
+
+        chunks = chunk_code(content)
+
+        return {
+            "repository": repository.full_name,
+            "file": request.file_path,
+            "total_chunks": len(chunks),
+            "chunks": [
+                {
+                    "chunk_id": index,
+                    "content": chunk
+                }
+                for index, chunk in enumerate(chunks, start=1)
+            ]
         }
 
     except Exception as error:
