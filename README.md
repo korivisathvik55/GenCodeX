@@ -1,118 +1,423 @@
-\# GenCodeX
+# GenCodeX
 
+## AI-Powered GitHub Codebase Assistant
 
+GenCodeX is an AI-powered GitHub codebase assistant that helps developers understand and explore source code from GitHub repositories.
 
-GenCodeX is an AI-powered GitHub codebase assistant that uses Retrieval-Augmented Generation (RAG) to understand and explain source code.
+It uses Retrieval-Augmented Generation (RAG) to retrieve relevant source-code sections using semantic search and provide AI-generated explanations using a locally running Qwen2.5-Coder model through Ollama.
 
+---
 
+## 1. Project Description
 
-It retrieves source code from GitHub, splits the code into chunks, creates semantic embeddings, searches the most relevant code using FAISS, and generates an explanation using a locally running Qwen2.5-Coder model through Ollama.
+GenCodeX allows users to provide a GitHub repository, select a source-code file, and ask questions about the code.
 
+The system retrieves the requested source code, divides it into smaller chunks, generates semantic embeddings, searches for the most relevant chunks using FAISS, and provides the retrieved context to Qwen2.5-Coder for generating an explanation.
 
+The project was built to make understanding unfamiliar GitHub codebases easier by combining semantic code search with a local Large Language Model (LLM).
 
-\## Features
+---
 
+## 2. Key Features
 
+- GitHub source-code retrieval
+- Code chunking
+- Semantic code embeddings
+- FAISS similarity search
+- Retrieval-Augmented Generation (RAG)
+- Qwen2.5-Coder 3B
+- Ollama local LLM inference
+- AI-powered code explanation
+- Retrieved source-code display
+- React-based user interface
+- FastAPI backend
+- Markdown-formatted AI responses
+- API error handling
+- Frontend-to-backend communication
 
-\- GitHub repository integration
+---
 
-\- Source-code retrieval
-
-\- Code chunking
-
-\- Semantic code embeddings
-
-\- FAISS vector similarity search
-
-\- Retrieval-Augmented Generation (RAG)
-
-\- Local LLM inference using Ollama
-
-\- Qwen2.5-Coder 3B
-
-\- FastAPI backend
-
-\- React + Vite frontend
-
-\- Retrieved source-code display
-
-\- Markdown-formatted AI responses
-
-\- API error handling
-
-\- CORS support for frontend-backend communication
-
-
-
-\## Architecture
-
-
+## 3. System Architecture
 
 ```text
+                         GenCodeX
+                            |
+                            v
+                  React + Vite Frontend
+                            |
+                            v
+                     FastAPI Backend
+                            |
+                 +----------+----------+
+                 |                     |
+                 v                     v
+           GitHub Service       Code Processing
+                                       |
+                                       v
+                                 Code Chunking
+                                       |
+                                       v
+                                  Embeddings
+                                       |
+                                       v
+                                  FAISS Search
+                                       |
+                                       v
+                              Relevant Code Context
+                                       |
+                                       v
+                              Ollama / Qwen2.5
+                                       |
+                                       v
+                              Generated Answer
+                                       |
+                                       v
+                              React Frontend
 
-&#x20;                   GenCodeX
+4. Technology Stack
+Programming Languages
+Python
+JavaScript
+Frontend
+React
+Vite
+CSS
+React Markdown
+Backend
+FastAPI
+Pydantic
+PyGithub
+AI and RAG
+Sentence Transformers
+FAISS
+Ollama
+Qwen2.5-Coder 3B
+Development Tools
+Git
+GitHub
+npm
+Python Virtual Environment
+5. Project Structure
+GenCodeX/
+│
+├── backend/
+│   └── app/
+│       ├── main.py
+│       ├── github_service.py
+│       ├── chunking_service.py
+│       ├── embedding_service.py
+│       ├── vector_store.py
+│       ├── code_search_service.py
+│       ├── llm_service.py
+│       │
+│       ├── test_chunking.py
+│       ├── test_embeddings.py
+│       ├── test_faiss.py
+│       ├── test_code_search.py
+│       └── test_llm.py
+│
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── App.jsx
+│   │   ├── App.css
+│   │   ├── index.css
+│   │   └── main.jsx
+│   ├── package.json
+│   ├── package-lock.json
+│   └── vite.config.js
+│
+├── docs/
+│   └── screenshots/
+│       ├── frontend.png
+│       ├── ai-answer.png
+│       ├── sources.png
+│       └── api-docs.png
+│
+├── .gitignore
+└── README.md
+Backend File Responsibilities
+File	Responsibility
+main.py	FastAPI application and API endpoints
+github_service.py	GitHub repository and source-code retrieval
+chunking_service.py	Splits source code into smaller chunks
+embedding_service.py	Generates semantic embeddings
+vector_store.py	Handles FAISS vector storage and search
+code_search_service.py	Performs semantic code retrieval
+llm_service.py	Connects GenCodeX to the local Qwen model through Ollama
+6. How It Works
 
-&#x20;                      |
+GenCodeX follows a Retrieval-Augmented Generation pipeline.
 
-&#x20;                      v
+Step 1: User Input
 
-&#x20;             React + Vite Frontend
+The user provides:
 
-&#x20;                      |
+GitHub repository URL
+Source-code file path
+Question about the code
+Step 2: GitHub Code Retrieval
 
-&#x20;                      v
+The FastAPI backend connects to GitHub and retrieves the requested source file.
 
-&#x20;               FastAPI Backend
+Step 3: Code Chunking
 
-&#x20;                      |
+The source code is divided into smaller chunks so that relevant sections can be retrieved efficiently.
 
-&#x20;            +---------+---------+
+Step 4: Embedding Generation
 
-&#x20;            |                   |
+The code chunks are converted into numerical vectors using Sentence Transformers.
 
-&#x20;            v                   v
+These embeddings represent the semantic meaning of the source-code chunks.
 
-&#x20;       GitHub Service      Code Processing
+Step 5: FAISS Similarity Search
 
-&#x20;                                |
+The user's question is converted into an embedding and compared against the code embeddings.
 
-&#x20;                                v
+FAISS retrieves the most relevant code chunks based on semantic similarity.
 
-&#x20;                          Code Chunking
+Step 6: Context Construction
 
-&#x20;                                |
+The retrieved code chunks are combined to create the context provided to the language model.
 
-&#x20;                                v
+Step 7: AI Generation
 
-&#x20;                          Embeddings
+Qwen2.5-Coder 3B, running locally through Ollama, receives the user's question and the retrieved code context.
 
-&#x20;                                |
+The model generates an explanation based on the provided code context.
 
-&#x20;                                v
+Step 8: Final Response
 
-&#x20;                          FAISS Search
+The generated explanation is returned to the React frontend along with the retrieved source-code chunks.
 
-&#x20;                                |
+7. Installation & Setup
+Prerequisites
 
-&#x20;                                v
+Install the following:
 
-&#x20;                      Relevant Code Context
+Python
+Node.js
+Git
+Ollama
+Clone the Repository
+git clone https://github.com/korivisathvik55/GenCodeX.git
+cd GenCodeX
+Backend Setup
 
-&#x20;                                |
+Create a Python virtual environment:
 
-&#x20;                                v
+python -m venv .venv
 
-&#x20;                        Ollama / Qwen2.5
+Activate the environment:
 
-&#x20;                                |
+.venv\Scripts\activate
 
-&#x20;                                v
+Install the required Python packages:
 
-&#x20;                        Generated Answer
+pip install -r requirements.txt
+Ollama Setup
 
-&#x20;                                |
+Download the Qwen2.5-Coder model:
 
-&#x20;                                v
+ollama pull qwen2.5-coder:3b
 
-&#x20;                        React Frontend
+Test the model:
 
+ollama run qwen2.5-coder:3b
+Start the Backend
+
+From the project root:
+
+uvicorn backend.app.main:app --reload
+
+Backend URL:
+
+http://127.0.0.1:8000
+
+FastAPI documentation:
+
+http://127.0.0.1:8000/docs
+Start the Frontend
+
+Open another terminal:
+
+cd frontend
+npm.cmd install
+npm.cmd run dev
+
+Frontend URL:
+
+http://localhost:5173
+
+Vite may automatically use another available port if port 5173 is already occupied.
+
+8. API Documentation
+GET /
+
+Checks whether the GenCodeX backend is running.
+
+POST /repositories
+
+Retrieves information about a GitHub repository.
+
+POST /repositories/files
+
+Retrieves files available in a GitHub repository.
+
+POST /repositories/content
+
+Retrieves the contents of a specific source file.
+
+POST /repositories/chunks
+
+Retrieves a source file and divides it into code chunks.
+
+POST /repositories/ask
+
+Runs the complete RAG pipeline:
+
+Question
+   |
+   v
+Code Retrieval
+   |
+   v
+Code Chunking
+   |
+   v
+Embeddings
+   |
+   v
+FAISS Search
+   |
+   v
+Relevant Code Context
+   |
+   v
+Qwen2.5-Coder
+   |
+   v
+AI Answer
+9. Example
+Repository
+https://github.com/fastapi/fastapi
+File
+fastapi/applications.py
+Question
+How is the FastAPI application initialized?
+GenCodeX Processing
+GitHub File
+     |
+     v
+Code Chunks
+     |
+     v
+Embeddings
+     |
+     v
+FAISS Search
+     |
+     v
+Relevant Chunks
+     |
+     v
+Qwen2.5-Coder
+     |
+     v
+AI Explanation
+
+The application also displays the retrieved source-code chunks used as context for the generated answer.
+
+10. Screenshots
+GenCodeX Frontend
+
+AI-Generated Answer
+
+Retrieved Source Code
+
+FastAPI Documentation
+
+11. Testing
+
+The following components have been tested individually and as an integrated system:
+
+Code chunking
+Embedding generation
+FAISS similarity search
+Semantic code search
+Local LLM generation
+GitHub code retrieval
+End-to-end RAG API
+React frontend
+Frontend-to-backend communication
+Source-code retrieval and display
+End-to-End Test
+
+The complete pipeline was successfully tested using a GitHub repository and a source-code question.
+
+Example:
+
+Repository:
+https://github.com/fastapi/fastapi
+
+
+File:
+fastapi/applications.py
+
+
+Question:
+How is the FastAPI application initialized?
+
+The system successfully retrieved relevant code, generated an AI explanation, and displayed the source chunks used during retrieval.
+
+12. Project Status
+Core RAG Pipeline: Complete
+
+The current implementation successfully demonstrates:
+
+GitHub
+   |
+   v
+Code Retrieval
+   |
+   v
+Code Chunking
+   |
+   v
+Embeddings
+   |
+   v
+FAISS Similarity Search
+   |
+   v
+Relevant Code Context
+   |
+   v
+Qwen2.5-Coder + Ollama
+   |
+   v
+AI-Generated Explanation
+   |
+   v
+React Interface
+13. Future Enhancements
+
+Possible future improvements include:
+
+Repository-wide indexing
+Automatic file selection
+Multi-file code analysis
+Conversation history
+Code navigation
+Improved code-aware chunking
+Private GitHub repository support
+Automated test coverage
+Cloud deployment
+Advanced repository analysis
+14. Author
+
+Korivi Sathvik
+
+GitHub:
+
+https://github.com/korivisathvik55
