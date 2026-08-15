@@ -24,4 +24,7 @@ def search_code(chunks, query, top_k=3):
         top_k=top_k
     )
 
+    for index, result in enumerate(results, start=1):
+        result["chunk_id"] = index
+
     return results
